@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bike Rent Prediction | iNeuron Vision</title>
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.0.1/dist/alpine.js" defer></script>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no"
+        name="viewport" />
+    <meta name="title" content="Bike Rent Prediction | iNeuron Vision" />
+    <meta name="description" content="App descripton" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Bike Rent Prediction | iNeuron Vision" />
+    <meta property="og:description" content="App descripton" />
+    <meta property="og:image" content="App logo link" />
+    <meta property="og:url" content="App link" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Bike Rent Prediction | iNeuron Vision" />
+    <meta property="twitter:description" content="App descripton" />
+    <meta property="twitter:image" content="App logo link" />
+    <meta property="twitter:url" content="App link" />
+
+</head>
+
+<style>
+    .donutSpinner {
+        display: inline-block;
+        border: 4px solid hsl(222, 100%, 95%);
+        ;
+        border-left-color: hsl(243, 80%, 62%);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: donut-spin 1.2s linear infinite;
+    }
+
+    button:focus,
+    textarea:focus,
+    input:focus {
+        outline: none;
+    }
+
+    @keyframes donut-spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<body>
+    <div x-data="{ open: false }" class="relative pt-6">
+
+        <div class="max-w-screen-xl mx-auto px-4 sm:px-6">
+            <nav class="relative flex items-center justify-end sm:h-10 md:justify-end">
+                <div class="flex items-center flex-1 md:absolute md:inset-y-0 md:left-0">
+                    <div class="flex items-center justify-between w-full md:w-auto">
+                        <a href="https://ineuronvision.com/">
+                            <img class="h-8 w-auto sm:h-10" src="/static/logo.png" alt="" />
+                        </a>
+                        <div class="-mr-2 flex items-center md:hidden">
+                            <button @click="open = true" type="button"
+                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <a href="https://ineuronvision.com/"
+                        class="mr-10 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition duration-150 ease-in-out">Home</a>
+
+                    <a href="https://ineuronvision.com/product-list.html"
+                        class=" mr-10 inline-flex font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition duration-150 ease-in-out">Products</a>
+
+                    <a href="https://ineuron.ai/home/courses" target="_blank"
+                        class="finline-flex font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition duration-150 ease-in-out">Courses</a>
+                    <a href="https://ineuron.ai/home/stories" target="_blank"
+                        class="ml-10 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition duration-150 ease-in-out">Stories</a>
+                    <a href="https://inblog.in/" target="_blank"
+                        class="ml-10 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition duration-150 ease-in-out">Blog</a>
+                    <a href="https://ineuron.ai/home/corporate_enquiry" target="_blank"
+                        class="ml-10 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition duration-150 ease-in-out">Contact</a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Mobile View NavBar -->
+        <div x-show="open" style="display: none;" class="absolute top-0 inset-x-0 p-2 md:hidden">
+            <div class="rounded-lg shadow-md transition transform origin-top-right" x-show="open"
+                x-transition:enter="duration-150 ease-out" x-transition:enter-start="opacity-0 scale-95"
+                x-transition:enter-end="opacity-100 scale-100" x-transition:leave="duration-100 ease-in"
+                x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
+                <div class="rounded-lg bg-white shadow-xs overflow-hidden">
+                    <div class="px-5 pt-4 flex items-center justify-between">
+                        <div>
+                            <img class="h-8 w-auto" src="/static/logo.png" alt="ineuronvision" />
+                        </div>
+                        <div class="-mr-2">
+                            <button @click="open = false" type="button"
+                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="px-2 pt-2 pb-3">
+                        <a href="https://ineuronvision.com/"
+                            class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out">Home</a>
+                        <a href="https://ineuronvision.com/product-list.html"
+                            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out">Product</a>
+                        <a href="https://ineuron.ai/home/courses"
+                            class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out">Courses</a>
+                        <a href="https://ineuron.ai/home/stories"
+                            class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out">Stories</a>
+                        <a href="https://inblog.in/"
+                            class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out">Blog</a>
+                        <a href="https://ineuron.ai/home/corporate_enquiry"
+                            class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Result Section -->
+        {% if predict %}
+        <div id="resultSection" class="container z-50 mx-auto mt-12 bg-gray-100 rounded-lg">
+            <div class="z-0 flex xl:flex-row lg:flex-row md:flex-col flex-col p-14">
+                <section class="text-gray-700 body-font bg-white rounded-lg w-full">
+                    <div class="px-8 py-5">
+                        <h3 class="mb-3 text-xl font-semibold text-red-600 lg:text-2xl title-font">Result</h3>
+                        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                            Predictive Analysis.
+                        </p>
+                    </div>
+                    <div
+                        class="container mx-auto flex px-5 py-6 items-center justify-center flex-col border-t border-b border-gray-200">
+                        <div class="text-center lg:w-2/3 w-full">
+                            <h1 class=" mb-4 h-auto py-2 px-4 text-base leading-relaxed bg-gray-50 rounded-lg">
+                                Predicted Bike Rent: <span class="text-red-500 font-semibold">Rs {{result}}</span></h1>
+                        </div>
+                    </div>
+                    <div class="px-4 py-5 sm:px-6 w-full">
+                        <p class="my-auto text-right">
+                            <a href="/#inputSection"><button
+                                    class="flex-shrink-0 text-white bg-red-600 border-0 py-1.5 px-6 focus:outline-none hover:bg-red-700 rounded text-sm">Back</button></a>
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        {% else %}
+        <!-- Into Section -->
+        <div class="mt-8 mx-auto max-w-screen-xl px-4 sm:mt-12 sm:px-6 md:mt-20 xl:mt-24">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+                <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
+                    <h2
+                        class="mt-1 text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:leading-none sm:text-6xl lg:text-5xl xl:text-6xl">
+                        Bike Rent <span class="text-red-600">Prediction</span>
+
+                    </h2>
+                    <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id ex magni pariatur quaerat deserunt
+                        natus und
+                    </p>
+                    <div class="mt-5 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
+                        <p class="text-base font-medium text-gray-900">
+                            Want a enterprise version of this product?
+                        </p>
+                        <div class="mt-3 lg:flex">
+                            <button
+                                class="w-full px-6 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-800 shadow-sm hover:bg-gray-700 focus:outline-none focus:shadow-outline active:bg-gray-900 transition duration-150 ease-in-out sm:mt-0 sm:flex-shrink-0 sm:inline-flex sm:items-center sm:w-auto">
+                                <a href="https://ineuron.ai/home/corporate_enquiry" target="_blank">Contact for demo</a>
+                            </button>
+                        </div>
+                        <p class="mt-3 text-sm leading-5 text-gray-500">
+                            We care about the protection of your data. Read our
+                            <a href="https://ineuron.ai/home/privacy_policy" target="_blank"
+                                class="font-medium text-gray-900 underline">Privacy Policy</a>.
+                        </p>
+                    </div>
+                </div>
+                <div
+                    class="mt-12 z-0 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
+                    <div class="relative mx-auto w-full rounded-lg shadow-lg lg:max-w-md">
+                        <button
+                            class="relative block w-full rounded-lg overflow-hidden focus:outline-none focus:shadow-outline">
+                            <img class="w-full" src="/static/outfit.jpg" alt="Outfit-Recommendation" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Section -->
+        <div id="inputSection" class="container z-50 mx-auto mt-32  bg-gray-100 rounded-lg">
+            <div class="z-0 flex xl:flex-row lg:flex-row md:flex-col flex-col p-14">
+
+                <form action="/predict" method="POST" class="w-full">
+                    <div class="bg-white shadow overflow-hidden rounded-lg w-full">
+                        <div class="px-4 py-5 sm:px-6 flex flex-col sm:flex-row justify-between">
+                            <div>
+                                <h3 class="text-lg leading-6 font-medium text-red-600">
+                                    Predictive Analysis
+                                </h3>
+                                <p class="mt-1 max-w-2xl text-sm text-gray-600">
+                                    Select the attributs.
+                                </p>
+                            </div>
+                            <div>
+                                <!-- <p class="mt-2 max-w-2xl text-xs text-left md:text-right font-bold text-gray-500">MPG:
+                                    <span class="text-xs font-semibold text-gray-400">Miles Per Gallon*</span></p>
+                                <p class="mt-2 max-w-2xl text-xs text-left md:text-right font-bold text-gray-500">Curb
+                                    Weight: <span class="text-xs font-semibold text-gray-400">Weight of the car without
+                                        any passenger*</span></p> -->
+                            </div>
+                        </div>
+                        <div class="border-t border-b border-gray-200 flex flex-col md:flex-row justify-between">
+                            <dl class="w-full">
+                                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500 my-auto">
+                                        Season
+                                    </dt>
+                                    <dd class="mt-2 md:mt-auto sm:col-span-2">
+                                        <select required name="season" id="one"
+                                            class="text-sm text-gray-900 w-full md:w-4/5 px-3 py-1.5 rounded-md border border-gray-200">
+                                            <option value="" disabled selected hidden>Select</option>
+                                            <option value="1">Springer</option>
+                                            <option value="2">Summer</option>
+                                            <option value="3">Fall</option>
+                                            <option value="4">Winter</option>
+                                        </select>
+                                    </dd>
+                                </div>
+                                <div hidden class="hidden ">
+                                    <dt class="text-sm font-medium text-gray-500 my-auto">
+                                        Year
+                                    </dt>
+                                    <dd class="mt-2 md:mt-auto sm:col-span-2">
+                                        <select required name="yr" id="eleven"
+                                            class="text-sm text-gray-900 w-full md:w-4/5 px-3 py-1.5 rounded-md border border-gray-200">
+                                            <option value="" disabled selected hidden>Select</option>
+                                            <option value="0">2011</option>
+                                            <option value="1">2012</option>
+                                        </select>
+                                    </dd>
+                                </div>
+                                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500 my-auto">
+                                        Quarter
+                                    </dt>
+                                    <dd class="mt-2 md:mt-auto sm:col-span-2">
+                                        <select required name="qtrs" id="two"
+                                            class="text-sm text-gray-900 w-full md:w-4/5 px-3 py-1.5 rounded-md border border-gray-200">
+                                            <option value="" disabled selected hidden>Select</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
+                                    </dd>
+                                </div>
+                                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500 my-auto">
+                                        Month
+                                    </dt>
+                                    <dd class="mt-2 md:mt-auto sm:col-span-2">
+                                        <input type="number" min="1" max="12" id="three" name="mnth" placeholder="between 1 to 12"
+                                            required class="text-sm text-gray-900 w-full md:w-4/5 px-2 py-1.5 rounded-md border border-gray-200">
+                                    </dd>
+                                </div>
+                                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500 my-auto">
+                                        Wind Speed
+                                    </dt>
+                                    <dd class="mt-2 md:mt-auto sm:col-span-2">
+                                        <input type="text" min="0.02" max="0.50" id="four" name="windspeed" placeholder="between 0.02 to 0.50"
+                                            required class="text-sm text-gray-900 w-full md:w-4/5 px-2 py-1.5 rounded-md border border-gray-200">
+                                    </dd>
+                                </div>
+                                <div class="bg-white  px-4 py-5 mt-0.5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500 my-auto">
+                                        Temperature
+                                        <span class="text-xs pt-1 font-semibold text-gray-400">(˚C)*</span>
+                                    </dt>
+                                    <dd class="mt-2 md:mt-auto sm:col-span-2">
+                                        <input type="text" id="five" min="0.05" max="0.86" name="temp" placeholder="between 0.05 to 0.86"
+                                            required class="text-sm text-gray-900 w-full md:w-4/5 px-2 py-1.5 rounded-md border border-gray-200">
+                                    </dd>
+                                </div>
+                            </dl>
+                            <dl class="w-full">
+                                <div class="bg-gray-50 md:bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500 my-auto">
+                                        Weekday
+                                    </dt>
+                                    <dd class="mt-2 md:mt-auto sm:col-span-2">
+                                        <select required name="weekday" id="six"
+                                            class="text-sm text-gray-900 w-full md:w-4/5 px-3 py-1.5 rounded-md border border-gray-200">
+                                            <option value="" disabled selected hidden>Select</option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                        </select>
+                                    </dd>
+                                </div>
+                                <div class="bg-white md:bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500 my-auto">
+                                        Weathersit
+                                    </dt>
+                                    <dd class="mt-2 md:mt-auto sm:col-span-2">
+                                        <select required name="weathersit" id="seven"
+                                            class="text-sm text-gray-900 w-full md:w-4/5 px-3 py-1.5 rounded-md border border-gray-200">
+                                            <option value="" disabled selected hidden>Select</option>
+                                            <option value="1">Clear, Few clouds</option>
+                                            <option value="2">Mist, Cloudy</option>
+                                            <option value="3">Heavy Rain</option>
+                                            <option value="4">Light Snow</option>
+                                        </select>
+                                    </dd>
+                                </div>
+                                <div hidden class="hidden">
+                                    <dt class="text-sm font-medium text-gray-500 my-auto">
+                                        Atemp
+                                    </dt>
+                                    <dd class="mt-2 md:mt-auto sm:col-span-2">
+                                        <input type="text" id="ten" name="atemp" placeholder="between 0.07 to 0.84"
+                                            required class="text-sm text-gray-900 w-full md:w-4/5 px-2 py-1.5 rounded-md border border-gray-200">
+                                    </dd>
+                                </div>
+                                <div class="bg-gray-50 md:bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500 my-auto">
+                                        Holiday
+                                    </dt>
+                                    <dd class="mt-2 md:mt-auto sm:col-span-2">
+                                        <select required name="holiday" id="eight"
+                                            class="text-sm text-gray-900 w-full md:w-4/5 px-3 py-1.5 rounded-md border border-gray-200">
+                                            <option value="none" disabled selected hidden>Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </dd>
+                                </div>
+                                <div class="bg-white md:bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500 my-auto">
+                                        Working Day
+                                    </dt>
+                                    <dd class="mt-2 md:mt-auto sm:col-span-2">
+                                        <select required name="workingday" id="nine"
+                                            class="text-sm text-gray-900 w-full md:w-4/5 px-3 py-1.5 rounded-md border border-gray-200">
+                                            <option value="none" disabled selected hidden>Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </dd>
+                                </div>
+                                </dl>
+                            </div>
+
+                                
+                        <div class="px-4 py-5 sm:px-6 flex flex-col md:flex-row justify-between">
+                            <button type="button" onclick="randomValue()" class="text-sm text-gray-500 my-auto">
+                                <u>Use random values</u>
+                            </button>
+                            <p class="my-2 mx-auto md:mx-0 md:my-auto max-w-2xl">
+                                <button type="submit" value="Predict"
+                                    class="flex-shrink-0 text-white bg-red-600 border-0 py-1.5 px-6 focus:outline-none hover:bg-red-700 rounded text-sm">Submit</button>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+
+    <!-- Footer Section -->
+    <div class="bg-gray-800 mt-12">
+        <div class="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+            <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+                <div class="grid grid-cols-2 gap-8 xl:col-span-2">
+                    <div class="">
+                        <div>
+                            <!-- <h4 class="text-sm leading-5 font-semibold tracking-wider text-gray-400 uppercase">
+                            About
+                        </h4> -->
+                            <img class="h-8 w-auto sm:h-10" src="/static/logo-light.png" alt="ineuronvision">
+                            <p class="mt-4 text-gray-300 text-base leading-6 normal-case">Our mission is to build a
+                                product driven
+                                community around the globe where an individual can collaborate, learn, share and develop
+                                real time use
+                                case the trending technologies.</p>
+                        </div>
+                    </div>
+                    <div class="md:grid md:grid-cols-1 md:gap-8">
+                        <div>
+                            <h4 class="text-sm leading-5 font-semibold tracking-wider text-gray-400 uppercase">
+                                Contact
+                            </h4>
+                            <p class="mt-4 text-gray-300 text-base leading-6">
+                                51/27 Swamy Towers-1st Floor,
+                                1st Main, Rj Garden, Orr, Marathahalli,
+                                Bangalore – 560037.
+                            </p>
+                            <p class="mt-4 text-gray-300 text-base leading-6">
+                                <a href="mailto:contact@ineuron.ai">contact@ineuron.ai</a>
+                                <br>
+                                <a href="tel:+919176072251">+91 91760 72251</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 xl:mt-0">
+                    <h4 class="text-sm leading-5 font-semibold tracking-wider text-gray-400 uppercase">
+                        Learn More
+                    </h4>
+                    <ul class="mt-4">
+                        <li>
+                            <a href="https://ineuronvision.com/product-list.html"
+                                class="text-base leading-6 text-gray-300 hover:text-white">
+                                All Products
+                            </a>
+                        </li>
+                        <li class="mt-1">
+                            <a href="https://ineuron.ai/home/about_us" target="_blank"
+                                class="text-base leading-6 text-gray-300 hover:text-white">
+                                About Us
+                            </a>
+                        </li>
+                        <li class="mt-1">
+                            <a href="https://ineuron.ai/home/courses" target="_blank"
+                                class="text-base leading-6 text-gray-300 hover:text-white">
+                                Courses
+                            </a>
+                        </li>
+                        <li class="mt-1">
+                            <a href="https://ineuron.ai/home/stories" target="_blank"
+                                class="text-base leading-6 text-gray-300 hover:text-white">
+                                Stories
+                            </a>
+                        </li>
+                        <li class="mt-1">
+                            <a href="https://ineuron.ai/home/privacy_policy" target="_blank"
+                                class="text-base leading-6 text-gray-300 hover:text-white">
+                                Policy
+                            </a>
+                        </li>
+                        <li class="mt-1">
+                            <a href="https://ineuron.ai/home/faq" target="_blank"
+                                class="text-base leading-6 text-gray-300 hover:text-white">
+                                FAQ
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-700 pt-8 md:flex md:items-center md:justify-between">
+                <div class="flex md:order-2">
+                    <a href="https://www.facebook.com/futureindatascience/" target="_blank"
+                        class="text-gray-400 hover:text-gray-300">
+                        <span class="sr-only">Facebook</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/ineuron_ai/" target="_blank"
+                        class="ml-6 text-gray-400 hover:text-gray-300">
+                        <span class="sr-only">Instagram</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="https://twitter.com/iNeuronAi" target="_blank"
+                        class="ml-6 text-gray-400 hover:text-gray-300">
+                        <span class="sr-only">Twitter</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                        </svg>
+                    </a>
+                    <a href="https://www.youtube.com/channel/UCb1GdqUqArXMQ3RS86lqqOw" target="_blank"
+                        class="ml-6 text-gray-400 hover:text-gray-300">
+                        <span class="sr-only">YouTube</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 1024 1024">
+                            <path
+                                d="M941.3 296.1a112.3 112.3 0 0 0-79.2-79.3C792.2 198 512 198 512 198s-280.2 0-350.1 18.7A112.12 112.12 0 0 0 82.7 296C64 366 64 512 64 512s0 146 18.7 215.9c10.3 38.6 40.7 69 79.2 79.3C231.8 826 512 826 512 826s280.2 0 350.1-18.8c38.6-10.3 68.9-40.7 79.2-79.3C960 658 960 512 960 512s0-146-18.7-215.9zM423 646V378l232 133l-232 135z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/company/26650056/admin/" target="_blank"
+                        class="ml-6 text-gray-400 hover:text-gray-300">
+                        <span class="sr-only">LinkedIn</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+                    </a>
+                </div>
+                <p class="mt-8 text-base leading-6 text-gray-400 md:mt-0 md:order-1">
+                    &copy; <script>
+                        document.write(new Date().getFullYear())
+                    </script> iNeuron, All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var randomArray = ["0.08", "0.23", "0.48", "0.32"]
+
+
+        function randomValue() {
+
+            one.value = getRndInteger(1, 4)
+            two.value = getRndInteger(1, 4)
+            three.value = getRndInteger(1, 12)
+
+            four.value = randomItem(randomArray)
+            five.value = randomItem(randomArray)
+
+            six.value = getRndInteger(0, 6)
+            seven.value = getRndInteger(1, 4)
+
+            eight.value = getRndInteger(0, 1)
+            console.log(eight.value)
+            nine.value = Math.abs(eight.value-1)
+
+            ten.value = randomItem(randomArray)
+            eleven.value = getRndInteger(0, 1)
+        }
+
+        function getRndInteger(min, max) {
+            return Math.floor(Math.random() * ((max - 1) - min + 1)) + min;
+        }
+
+        function randomItem(items) {
+            return items[Math.floor(Math.random() * items.length)];
+          }
+    </script>
+
+</body>
+
+</html>
